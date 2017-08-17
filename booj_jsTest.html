@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<!--<script>jQuery.noConflict();</script>-->
+	<style>
+		body{
+			padding:20px;
+			font-size:12px;
+		}
+		h2{
+			font-size:18px;
+			margin:15px 0 5px 0;
+			border-bottom:1px solid #ccc;
+			padding:0 0 5px 0;
+		}
+		h3{
+			
+			color: slategrey;
+		}
+		
+		p{
+			padding:0 0 10px 0;
+			margin:0;
+		}
+		ul{
+			margin-top:5px;
+			margin-bottom:0px;
+		}
+		li{
+			padding-top:3px;
+			padding-bottom:3px;
+		}
+		#setDims{
+			background:red;
+			width:300px;
+			height:150px;
+			padding:10px;
+			text-align:center;
+			color:white;
+			line-height:150px;
+		}
+		a.not-clicked{
+			color:#000;
+			font-size:14px;
+			font-weight:bold;
+		}
+		a.clicked{
+			color:red;
+		}
+		fieldset{
+			display: flex;
+			align-content: center;
+			align-items: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<h1>Javascript Tests</h1>
+	</div>
+	
+	
+	
+	<h2>Manipulate the Last LI</h2>
+	<p>Select the Last Li in this list and turn its text red.</p>
+	
+	
+	<div id="content">
+	  <ul>
+		<li>First</li>
+		<li>Second</li>
+		<li>Third</li>
+		<li>Fourth</li>
+	  </ul>
+	</div>
+
+	
+	<h2>Select specific children from a nested list.</h2>
+	<p>Select the only the first children of the LI "Sally".</p>
+	<div id="content2">
+				<p>Some Text</p>
+				<p>Some More Text</p>
+				<div>Random Div</div>
+				<ul>
+					<li>Bob</li>
+					<li class="sally">Sally
+						<ul>
+							<li>Car</li>
+							<li>Boat</li>
+							<li>Bike
+								<ul>
+									<li>Red</li>
+									<li>Green</li>
+									<li>Blue</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>Larry</li>
+					<li>Mo</li>
+				</ul>
+	</div>
+	
+	
+	
+	
+	
+	<h2>Get a Field value and Write it to the page</h2>
+	<p>Write the value of the "Code Types" select field to a new div within the fieldset.</p>
+	<form method="post" action="">
+		<fieldset>
+			<label> Code Types:
+				<select id="CodeTypes">
+					<option value="">Choose</option>
+					<option value="php">PHP</option>
+					<option value="c+">C+</option>
+					<option value="asp">ASP</option>
+				</select>
+			</label>
+			<div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+			<div>
+			<h3>You chose:&nbsp;&nbsp;&nbsp;</h3></div>
+			<div><h3 id="code">Choose</h3></div>
+		</fieldset>
+	</form>
+	
+	
+	
+	
+	<h2>Find Dimensions of an Element</h2>
+	<p>Write actual rendered dimensions of the following div including any padding to the div itself.</p>
+	<div id="setDims">This is a div. How big am i?</div>
+
+	
+	
+	<!-- click event handler -->
+	
+	<h2>Events</h2>
+	<p>Place a click event on the following link. When clicked toggle it's class name from 'clicked' to 'not-clicked'.</p>
+	
+
+	
+	<a id="clickEventLink" href="#clicked" title="Click Me" class="not-clicked" onclick="toggleClass()">Click Me</a>
+	
+	
+	
+	<h2>Ajax</h2>
+	<p>Call ajax_return.html and write's its json as a "name": "value" list to the following div:</p>
+	<div id="jsonResponse">My Response Was...</div>
+	<button type="button" onclick="loadDoc()">Call AJAX file</button>
+<!--
+Place your answers below this comment block.
+Note: You have jquery already loaded on the page.
+Please also write your jquery in a no conflict manner.
+-->
+<script type="text/javascript">
+	
+		//last list item turned red
+		$("#content li:last").css({color: "red"});
+		//document.write("<br /><p>Look up! The Last list item in section 1 should be red! </p>");
+		//nested list
+		$("#content2 li.sally > ul li:first").css({color: "blue"})
+	
+		//display chosen code type
+		$('#CodeTypes').click(function(){
+			var e = $('#CodeTypes option:selected').text();
+			$("#code").html(e);
+		});
+	
+	    //rendered dimension of div box
+	    var w = $('#setDims').outerWidth();
+		document.write("<br /><h3>The total width of the red div (with padding) is: " + w + " pixels.</h3>");
+		var h = $('#setDims').outerHeight();
+		document.write("<h3>The total height of the red div (with padding) is: " + h + " pixels.</h3>");
+	
+	
+	    //Event handler - click event
+		$('#clickEventLink').on('click', function(e){
+			$('#clickEventLink').toggleClass("clicked not-clicked");
+			e.preventDefault();
+		});//end toggle class	
+	
+		//AJAX
+	function loadDoc() {
+    	var xhttp = new XMLHttpRequest();
+  			xhttp.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+      			document.getElementById("jsonResponse").innerHTML =
+      			this.responseText;
+    			}	
+  			};
+  		xhttp.open("GET", "ajax_return.html", true);
+  		xhttp.send();
+}
+	
+	 	
+</script>
+	
+	
+
+</body>
+</html>
